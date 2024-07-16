@@ -17,39 +17,31 @@ app.get("/about", (req, res) => {
   res.send("This is about page!");
 });
 
-// domain.com/blog/judul-berita
-// domain.com/blog/akan-berubah-dinamis-sesuai-judul
-// domain.com/blog/tapi-url-awalnya-tetap-sama
-// domain.com/blog/misalnya-blog-kaya-gini
-// jadi setelah url response utamanya, misal di sini contohnya itu blog, maka itu akan menjadi path/variabel/parameter
-// dan karena parameter itu termasuknya ke dalam request, maka dia harus di tangkap menggunakan object request, biasanya ada di dalam object req.params
+// mengambil nilai dari route parameter
 app.get("/blog/:judul", (req, res) => {
-  console.log(req.params); // params ini adalah object yang akan berisi si parameternya sebagai object juga
-  // console.log(req.params.judul);
-  // res.send("Ini halaman blog!");
-
+  console.log(req.params);
   const { judul } = req.params;
-
   res.send(`Tampilkan postingan dengan judul : <b>${judul}</b>`);
   console.log(judul);
 });
 
-// ini ternyata kalau mau di implementasi semua variabel parameter path ini harus wajib ada di setiap route nya, kalau salah 1 nya tidak terisi maka akan error dan akan di tangani oleh route "*"
+// mengambil nilai dari route parameter
 app.get("/blog/:category/:judul/:author", (req, res) => {
-  // console.log(req.params);
-  // res.send("This blog page!");
-
   const { category, judul, author } = req.params;
   res.send(
     `Blog dengan category : <b>${category}</b>, judul : <b>${judul}</b>, dan author : <b>${author}</b>`
   );
 });
 
-// MANFAAT MEMPELAJARI ROUTE PARAMETER DI EXPRESS JS
-// route dengan parameter ini bisa dimanfaatkan untuk fitur :
-// - update data sesuai id
-// - delete data sesuai id
-// - filterin data tertentu sesuao parameter yang dikirimkan
+// mengambil nilai dari query string
+app.get("/search", (req, res) => {
+  // console.log(req.query); // jadi bisa mendapatkan beberapa properti sekaligus dari object query
+  const { q } = req.query;
+  if (!q) {
+    res.send("<h1>Search keyword not found!</h1>");
+  }
+  res.send(`Search keyword: ${q}`);
+});
 
 app.get("*", (req, res) => {
   res.send("Page not found!");
@@ -58,3 +50,6 @@ app.get("*", (req, res) => {
 app.listen(8080, () => {
   console.log("Server is running on http://localhost:8080");
 });
+
+// NOTE :
+// jadi mengirimkan data di express js itu bisa dari route parameter nya dan juga dari query string
