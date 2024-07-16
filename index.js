@@ -1,18 +1,18 @@
-// setup express
-const express = require("express"); // import framework express nya
-const app = express(); // buat object express di dalam constant app
+const express = require("express");
+const app = express();
 
-// memberikan response ketika port 8080 diakses
-app.use(() => {
+// ada object request dan response, dan masing-masing memiliki methodnya sendiri
+// seperti res.send() itu bisa menampilkan string, json, html
+app.use((req, res) => {
   console.log("we got request!");
+  // console.dir(req);
+  // console.dir(res);
+  // res.send("Hello World!");
+  // res.send("<h1>Hello World!</h1>");
+  res.send({ message: "Hello World!" });
+  // res.status(200).send("Hello World!");
 });
 
-// port nya akan menunggu atau mendengarkan ketika ada request
 app.listen(8080, () => {
   console.log("Server is running on http://localhost:8080");
 });
-
-// NOTE :
-// kalau mau tes, jalankan "node index.js"
-// nanti di browser akan loading terus, karena kita buat ketika ada akses ke port 8080 hanya menampilkan console.log saja di terminal
-// kalau ada perubahan di code nya, harus di jalankan lagi perintah "node index.js"
